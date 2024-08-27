@@ -1,0 +1,7 @@
+/reception
+  /public            # Här lägger vi frontend-filerna
+    index.html       # Din HTML-fil
+    styles.css       # CSS-filen
+    script.js        # JavaScript-filen
+  /server.js         # Backend-fil för Node.js och Express
+  /package.json      # För att hantera beroenden och starta appen
