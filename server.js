@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const cors = require('cors');  // Nytt för att hantera CORS
+const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();  // För att ladda miljövariabler från .env-filen
 
@@ -8,10 +8,18 @@ require('dotenv').config();  // För att ladda miljövariabler från .env-filen
 app.use(cors());
 app.use(bodyParser.json());
 
-// Anslutning till PostgreSQL (om du använder pg-promise eller direkt pg-modul)
-// Exempel med pg-promise:
-// const pgp = require('pg-promise')();
-// const db = pgp(process.env.DATABASE_URL);
+// Kontrollera att ruttfilerna finns
+const path = require('path');
+const carRoutesPath = path.join(__dirname, 'routes', 'carRoutes.js');
+const registerRoutesPath = path.join(__dirname, 'routes', 'register.js');
+
+try {
+    require.resolve(carRoutesPath);
+    require.resolve(registerRoutesPath);
+} catch (e) {
+    console.error("En eller flera ruttfiler kunde inte hittas:", e.message);
+    process.exit(1);  // Avsluta processen om en modul saknas
+}
 
 // Rutter för API
 app.use('/api/cars', require('./routes/carRoutes'));
