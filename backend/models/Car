@@ -1,0 +1,17 @@
+const mongoose = require('mongoose');
+
+const CarSchema = new mongoose.Schema({
+    registrationNumber: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    zone: String,
+    package: String,
+    date: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+module.exports = mongoose.model('Car', CarSchema);
