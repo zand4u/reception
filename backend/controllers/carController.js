@@ -1,19 +1,17 @@
-const db = require('../config/db');
+const pool = require('../config/db');
 
 exports.addCar = async (req, res) => {
     const { registrationNumber, zone, package } = req.body;
 
     try {
-        const result = await db.one(
+        const result = await pool.query(
             'INSERT INTO cars (registration_number, zone, package) VALUES ($1, $2, $3) RETURNING *',
             [registrationNumber, zone, package]
         );
-        res.status(201).json(result);
+
+        res.status(201).json({ message: 'Registrering sparad', car: result.rows[0] });
     } catch (err) {
-        if (err.code === '23505') {  // Unique violation code
-            res.status(400).json({ message: 'Registreringsnumret finns redan.' });
-        } else {
-            res.status(400).json({ message: err.message });
-        }
+        console.error('Error inserting data into database:', err);
+        res.status(500).json({ message: 'Server error, could not save registration' });
     }
 };

@@ -35,6 +35,14 @@ try {
 app.use('/api/cars', require('./routes/carRoutes'));
 app.use('/api/register', require('./routes/register'));
 
+// Serve frontend static files
+app.use(express.static(path.join(__dirname, 'frontend')));
+
+// Fallback för att hantera andra rutter och servera frontend
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+});
+
 // Route to handle car registration directly in server.js
 app.post('/api/cars', async (req, res) => {
     const { registrationNumber, zone, package } = req.body;
