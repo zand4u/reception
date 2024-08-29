@@ -27,4 +27,9 @@ router.get('/users', async (req, res) => {
         const result = await pool.query('SELECT * FROM users');
         res.status(200).json(result.rows);
     } catch (err) {
-        console.error('Error fetching users
+        console.error('Error fetching users:', err);  // Korrigering här
+        res.status(500).json({ message: 'Failed to fetch users' });
+    }
+});
+
+module.exports = router;
