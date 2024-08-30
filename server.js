@@ -25,12 +25,12 @@ try {
 app.use('/api/cars', require(carRoutesPath));
 app.use('/api/register', require(registerRoutesPath));
 
-// Serve frontend static files
-app.use(express.static(path.join(__dirname, 'frontend')));
+// Serve frontend static files from dist
+app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
 
 // Fallback för att hantera andra rutter och servera frontend
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+    res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
 });
 
 // Starta servern
