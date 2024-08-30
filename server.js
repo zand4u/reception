@@ -10,8 +10,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Kontrollera att ruttfilerna finns
-const carRoutesPath = path.join(__dirname, 'routes', 'carRoutes.js');
-const registerRoutesPath = path.join(__dirname, 'routes', 'register.js');
+const carRoutesPath = path.join(__dirname, 'backend', 'routes', 'carRoutes.js');
+const registerRoutesPath = path.join(__dirname, 'backend', 'routes', 'register.js');
 
 try {
     require.resolve(carRoutesPath);
@@ -22,15 +22,15 @@ try {
 }
 
 // Rutter för API
-app.use('/api/cars', require('./routes/carRoutes'));
-app.use('/api/register', require('./routes/register'));
+app.use('/api/cars', require(carRoutesPath));
+app.use('/api/register', require(registerRoutesPath));
 
 // Serve frontend static files
-app.use(express.static(path.join(__dirname, '../frontend')));
+app.use(express.static(path.join(__dirname, 'frontend')));
 
 // Fallback för att hantera andra rutter och servera frontend
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
+    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
 // Starta servern
